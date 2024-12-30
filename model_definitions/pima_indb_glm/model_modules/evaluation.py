@@ -64,8 +64,10 @@ def plot_roc_curve(roc_out, img_filename):
 def evaluate(context: ModelContext, **kwargs):
 
     aoa_create_context()
-
-    model = DataFrame(f"model_${context.model_version}")
+    
+    #changed
+    print("Model Table: ", f"model_${context.model_version}")
+    model = DataFrame("glm_model_v1_binomial")
 
     feature_names = context.dataset_info.feature_names
     target_name = context.dataset_info.target_names[0]
@@ -90,7 +92,8 @@ def evaluate(context: ModelContext, **kwargs):
         accumulate=target_name,
         id_column=entity_key,
         output_prob=True,
-        output_responses=['0','1']
+        output_responses=['0','1'],
+        family='BINOMIAL'
     )
 
     predicted_data = ConvertTo(
